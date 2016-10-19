@@ -1,0 +1,115 @@
+import { cfg } from '../../shared/config';
+import { parsers, typedParsers } from './parsers';
+import accountStore from '../../stores/account';
+
+const ENV = cfg('env');
+
+export const initialInstrumentState = {
+  status: 'OFFLINE',
+};
+
+export function parseInstrument(spec) {
+  const preProcessed = parsers.preprocess(spec);
+  const processed = typedParsers[preProcessed.synthetic_type](preProcessed);
+  const postProcessed = parsers.postprocess(processed);
+  return postProcessed;
+}
+
+function parseLightInstrument(spec) {
+  const parsed = parseInstrument(spec);
+  parsed.status = parsed.status || 'OFFLINE';
+  return parsed;
+}
+export function parseLightInstruments(instrumentSpecs) {
+  console.log('Volume of instruments set : ', instrumentSpecs.length);
+  if (console.time) console.time('Parsing instruments took ');
+
+  const instruments = instrumentSpecs.map(parseLightInstrument);
+
+  if (console.timeEnd) console.timeEnd('Parsing instruments took ');
+
+  return instruments;
+}
+
+export function filterLightInstruments(instruments, query) {
+  return instruments.filter(instrument => instrument.nameForFilter.includes(query));
+}
+
+const pendingStatuses = {};
+
+export function parseFullInstrument(spec) {
+  const parsedInstrument = parseInstrument(spec);
+
+  const { id } = parsedInstrument;
+  if (pendingStatuses[id]) {
+    Object.assign(parsedInstrument, {
+      status: pendingStatuses[id],
+    });
+    delete pendingStatuses[id];
+  }
+
+  return parsedInstrument;
+}
+
+export function updateFullInstrument(prevInstrument, instrument) {
+  // keep prev status as default
+  const { status } = prevInstrument;
+  return Object.assign({ status }, instrument);
+}
+
+export function updateStatus(instrumentId, instrument, status) {
+  if (!instrument) {
+    pendingStatuses[instrumentId] = status;
+    return null;
+  }
+
+  delete pendingStatuses[instrumentId];
+
+  return Object.assign({}, instrument, {
+    status,
+  });
+}
+
+export function getDummyInstrument() {
+  return {
+    id: '--',
+    broker_accounts: [],
+    feed_mpi: 0,
+    currency: '',
+  };
+}
+
+export function getTitle(instrument) {
+  switch (ENV) {
+    case 'exante':
+    case 'exante_test':
+      return instrument.id;
+    case 'xcfd':
+    case 'xcfd_test':
+    default:
+      return instrument.description;
+  }
+}
+
+export function getASTitle(instrument) {
+  const instrumentType = instrument.instrument_type;
+  switch (ENV) {
+    case 'exante':
+    case 'exante_test':
+      return (instrumentType === 'FUND' || instrumentType === 'BOND') ? instrument.short_name : getTitle(instrument);
+    case 'xcfd':
+    case 'xcfd_test':
+    default:
+      return getTitle(instrument);
+  }
+}
+
+export function hasTradingPermissions(instrument) {
+  if (cfg('ignoreClientPermissions')) {
+    return true;
+  }
+  const currentAccountId = accountStore.getState().account.id;
+  return (instrument.broker_accounts !== undefined)
+      && (instrument.broker_accounts.length > 0)
+      && ((instrument.client_accounts || []).indexOf(currentAccountId) !== -1);
+}

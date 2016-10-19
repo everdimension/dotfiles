@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/rnd/web/exante/web-platform'
+let g:netrw_dirhist_2='/Users/rnd/web/exante/web-platform/src'
+let g:netrw_dirhist_3='/Users/rnd/web/exante/web-platform/src/entities'
+let g:netrw_dirhist_4='/Users/rnd/web/exante/web-platform/src/entities/instrument'
