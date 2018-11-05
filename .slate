@@ -7,28 +7,7 @@ config secondsBetweenRepeat 0.1
 config checkDefaultsOnLoad true
 config focusCheckWidthMax 3000
 
-# config windowHintsShowIcons true
-# config windowHintsIgnoreHiddenWindows true
-# config windowHintsSpread true
-# config windowHintsSpreadPadding 12
-# config windowHintsSpreadSearchWidth 40
-# config windowHintsSpreadSearchHeight 40
-
-# config switchIconPadding 2
-# config switchBackgroundColor 0;0;0;0.7
-# config switchSelectedPadding 2
-# config switchIconSize 4
-# config switchShowTitles true
-# config switchFontSize 8
-# config switchRoundedCornerSize 2
-# config undoOps move,resize
-
 config keyboardLayout qwerty
-
-# misc aliases
-
-alias showHintsLeftHand hint AOEUIYQJKX
-alias showNormalHint hint AOEUIDHTNSYXFBPKGMCW
 
 # positions
 
@@ -59,14 +38,6 @@ alias move-right    move windowTopLeftX+10;windowTopLeftY windowSizeX;windowSize
 alias editor 'Atom'
 alias terminal 'iTerm2'
 
-alias hyper ctrl;alt;cmd
-
-# common bindings
-
-bind z:${hyper} undo
-
-bind n:${hyper} throw next
-
 # app bindings
 
 alias appswitch ctrl;tab
@@ -83,54 +54,37 @@ bind o:${appswitch} focus 'Finder'
 bind s:${appswitch} focus 'Slack'
 bind p:${appswitch} focus ${terminal}
 bind k:${appswitch} focus 'Keynote'
-# bind b:cmd;ctrl focus 'Helium'
-# bind x:${hyper} focus 'Xcode'
-# bind g:${hyper} focus 'Gitter'
-# bind p:${hyper} focus 'Skype'
-bind d:${hyper} focus 'Discord'
-# bind r:${hyper} focus 'Preview'
-# bind v:${hyper} focus 'VirtualBox VM'
-# bind w:${hyper} focus 'VMware Fusion'
 
 # navigation & location bindings
 
-# bind e:cmd ${showNormalHint}
-# bind g:cmd grid padding:5 0:8,3 1:6,2
-
-bind y:cmd;ctrl ${lefthalf}
-bind o:cmd;ctrl ${righthalf}
-
-bind u:cmd;ctrl ${leftmore}
-bind i:cmd;ctrl ${rightmore}
+# bind y:cmd;ctrl ${lefthalf}
+# bind o:cmd;ctrl ${righthalf}
+#
+# bind u:cmd;ctrl ${leftmore}
+# bind i:cmd;ctrl ${rightmore}
 
 # bind h:cmd;ctrl ${leftless}
 # bind l:cmd;ctrl ${rightless}
 
-bind g:cmd;ctrl ${leftmost}
-bind r:cmd;ctrl ${full}
-bind ;:cmd;ctrl ${rightmost}
+# bind g:cmd;ctrl ${leftmost}
+# bind r:cmd;ctrl ${full}
+# bind ;:cmd;ctrl ${rightmost}
+#
+# bind e:cmd;ctrl ${center}
+# # bind t:cmd;ctrl ${tiny}
 
-bind e:cmd;ctrl ${center}
-# bind t:cmd;ctrl ${tiny}
-
-bind k:cmd;ctrl resize +0 -10%
-bind j:cmd;ctrl resize +0 +10%
-bind l:cmd;ctrl resize +10% +0
-bind h:cmd;ctrl resize -10% +0
-
-bind k:cmd;ctrl;alt resize +0 +10% bottom-right
-bind j:cmd;ctrl;alt resize +0 -10% bottom-right
-bind l:cmd;ctrl;alt resize -10% +0 bottom-right
-bind h:cmd;ctrl;alt resize +10% +0 bottom-right
-bind y:cmd;ctrl;alt resize +10% +0 bottom-right
-
-bind k:cmd;ctrl;shift ${move-up}
-bind j:cmd;ctrl;shift ${move-down}
-bind l:cmd;ctrl;shift ${move-right}
-bind h:cmd;ctrl;shift ${move-left}
-
-# layouts
-layout code ${editor} ${leftmore}
-layout code ${terminal} ${rightmost}
-
-# bind 0:ctrl sequence focus ${editor} | focus ${terminal} | layout code
+# bind k:cmd;ctrl resize +0 -10%
+# bind j:cmd;ctrl resize +0 +10%
+# bind l:cmd;ctrl resize +10% +0
+# bind h:cmd;ctrl resize -10% +0
+#
+# bind k:cmd;ctrl;alt resize +0 +10% bottom-right
+# bind j:cmd;ctrl;alt resize +0 -10% bottom-right
+# bind l:cmd;ctrl;alt resize -10% +0 bottom-right
+# bind h:cmd;ctrl;alt resize +10% +0 bottom-right
+# bind y:cmd;ctrl;alt resize +10% +0 bottom-right
+#
+# bind k:cmd;ctrl;shift ${move-up}
+# bind j:cmd;ctrl;shift ${move-down}
+# bind l:cmd;ctrl;shift ${move-right}
+# bind h:cmd;ctrl;shift ${move-left}

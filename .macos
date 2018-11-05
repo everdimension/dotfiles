@@ -1,0 +1,28 @@
+# Explore available commands here:
+# https://ss64.com/osx/defaults.html
+
+# -g, -globalDomain are synonyms for NSGlobalDomain
+
+# font smoothing
+# might be irrelevant for retina screens
+# defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+
+# ! FOR NON-RETINA Screen only
+# font smoothing after updating to Mojave:
+# https://github.com/Microsoft/vscode/issues/51132
+# defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool NO`
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+# Set a fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Other
+#
+# letter ё (russian keyboard layout)
+# http://xtdm.tk/articles/9/bukva-e-na-amerikanskikh-makbukakh
