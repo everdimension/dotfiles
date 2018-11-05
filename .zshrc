@@ -5,7 +5,27 @@ export ZSH=/Users/rnd/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="honukai" # "robbyrussell"
+ZSH_THEME="honukai-iterm-zsh/honukai" # "robbyrussell"
+
+
+# Fix incorrect cursor position
+# https://gist.github.com/ChaosJohn/245c58ae042f172feca2d81ee498afc1
+# sed "s/➜/→/g;s/✗/×/g;s/✖︎/×/g" (replace in current-theme.zsh-theme), example usage:
+#
+# sed "s/➜/→/g;s/✗/×/g;s/✖︎/×/g" $HOME/.oh-my-zsh/custom/themes/honukai.zsh-theme > honukai-replaced.zsh-theme
+#
+# ###########
+#
+# 1. https://apple.stackexchange.com/questions/269324/zsh-terminal-displaying-characters-and-cursor-in-the-wrong-place
+# 2. https://github.com/robbyrussell/oh-my-zsh/issues/1602
+# export LC_ALL=en_US.UTF-8
+# export LANG=en_US.UTF-8
+#
+# ###########
+#
+# enable base16 shell: https://github.com/chriskempson/base16-shell
+# BASE16_SHELL=$HOME/.config/base16-shell/
+# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -60,15 +80,17 @@ source $ZSH/oh-my-zsh.sh
 setopt menu_complete
 bindkey -M menuselect '^M' .accept-line
 
+# set -o vi
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -85,16 +107,35 @@ bindkey -M menuselect '^M' .accept-line
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
+# The following redefinition of the $PATH is
+# a temp fix for nvm problem: https://github.com/creationix/nvm/issues/1652
+PATH="/usr/local/bin:$(getconf PATH)"
+
 # copy from ~/.bash_profile
 source $HOME/.nvm/nvm.sh
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="/Applications/MAMP/bin/php/php5.6.2/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
+export PATH="$HOME/customScripts:$PATH"
 export APP_SETTINGS="project.config.DevelopmentConfig"
 source $HOME/.credentials
 eval "$(rbenv init -)"
 
 # export JAVA_HOME="/usr/libexec/java_home"
 
+alias nis="npm install --save"
 alias nid="npm install --save-dev"
 alias p="python -m SimpleHTTPServer"
+alias gs="git status"
+alias npmls="npm ls --depth" # enter depth, then package name
+# alias cc='clear && $(fc -ln -1)' # doesn't work ¯\_(ツ)_/¯ # used to move last output to top; be careful, though
+# CLipboard Contents
+copyContentsToClipboard() {
+  cat $1 | pbcopy
+}
+alias clc="copyContentsToClipboard"
+
+
+# completions https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
+compdef 'npm i'=ls
